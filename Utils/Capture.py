@@ -1,0 +1,2 @@
+def CaptureID():
+    return True
