@@ -11,20 +11,7 @@ app.register_blueprint(api_bp)
 
 payment_service = PaymentService()
 
-# @app.route('/payment-success')
-# def payment_success():
-#     if 'username' not in session:
-#         return redirect(url_for('login'))
-
-#     username = session['username']
-#     money = payment_service.calculate_money(username)
-#     id_xe = session.get('ID_xe')
-#     plate_image_url = session.get('plate_image_url')
-
-#     payment_service.record_payment(username, money, id_xe, plate_image_url)
-#     payment_service.reset_user_status(username)
-
-#     return render_template('success.html')
+@app.route('/checkin', methods=['GET'])
 
 
 @api_bp.route('/data')
