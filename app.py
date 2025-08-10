@@ -6,8 +6,12 @@ from Utils.money_utils import to_money
 from Utils.time_utils import to_hours
 import pyodbc
 from Repositories.sql_server.data_repository import DashboardDataRepository
+from flask import Blueprint, jsonify, session, redirect, url_for,render_template
+from Services.payment_service import PaymentService
+from flask import Flask, request, render_template, redirect, url_for,session
 app = Flask(__name__)
 app.secret_key = 'test123'
+payment_service = PaymentService()
 
 @app.route('/')
 def home():
@@ -50,7 +54,12 @@ def dashboard():
     least_use_slot = dashboard_data.get('least_use_slot')
     admin_online = dashboard_data.get('admin_online')
     # Bạn có thể load các dữ liệu khác phục vụ dashboard tại đây
-
+    hours = time_info.get('hours')
+    minutes = time_info.get('minutes')
+    seconds = time_info.get('seconds')
+    Time_started = session.get('Time_started')
+    ID_xe = session.get('ID_xe', '')
+    qr_code = session.get('qr_code', '')
     if role == 'admin':
         return render_template(
             'admin_dashboard.html',
@@ -66,28 +75,20 @@ def dashboard():
             admin_online=admin_online,
         )    
     else:
-        return render_template('dashboard.html', username=username, money=money, time_info=time_info)
+        return render_template(
+            'dashboard.html', 
+            username=username, 
+            money=money, 
+            time_info=time_info,
+            Time_started=Time_started,
+            ID_xe=ID_xe,
+            qr_code=qr_code,
+            hours=hours,
+            minutes=minutes,
+            seconds=seconds,
+        )
 
-@app.route('/payment-success', methods=['POST'])
-def payment_success():
-    if 'username' not in session:
-        return redirect(url_for('login'))
 
-    username = session['username']
-    amount = to_money(username)
-    car_code = request.form.get('car_code', '') or ''
-    plate_image_url = request.form.get('plate_image_url', '') or ''
-
-    payment_repo = PaymentRepository()
-    success = payment_repo.add_payment(username, amount, car_code, plate_image_url)
-    payment_repo.close()
-
-    if not success:
-        return "Thanh toán thất bại", 500
-
-    # Reset trạng thái user nếu cần - bạn gọi repo hoặc service để làm điều này
-
-    return render_template('success.html')
 
 @app.route('/api/payments')
 def api_payments():
@@ -133,5 +134,21 @@ def api_dashboard_data():
     # cursor.close()
     # conn.close()
     return results
+
+@app.route('/payment-success')
+def payment_success():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    username = session['username']
+    money = payment_service.calculate_money(username)
+    id_xe = session.get('ID_xe')
+    plate_image_url = session.get('plate_image_url')
+
+    payment_service.record_payment(username, money, id_xe, plate_image_url)
+    payment_service.reset_user_status(username)
+
+    return render_template('success.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

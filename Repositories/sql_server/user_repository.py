@@ -69,6 +69,12 @@ class AccountRepository:
         self.cursor.execute(query, (username,))
         self.conn.commit()
         return True
+    def load_username_data(self):
+        query = f"SELECT * FROM users" #0 = false car 
+        self.cursor.execute(query)
+        columns = self.cursor.description
+        row = self.cursor.fetchall()
+        return row
     def close(self):
         self.cursor.close()
         self.conn.close()

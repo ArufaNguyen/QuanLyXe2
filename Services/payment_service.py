@@ -10,20 +10,12 @@ class PaymentService:
     def calculate_money(self, username):
         # Tính tiền dựa trên username, gọi utils hoặc repo tính toán
         # Giả sử bạn có utils To_Money(username)
-        from Utils.money_utils import To_Money
-        return To_Money(username)
+        from Utils.money_utils import to_money
+        return to_money(username)
 
     def record_payment(self, username, amount, car_code, plate_image_url):
         # Ghi lại thông tin thanh toán vào database hoặc file
-        now = datetime.datetime.now()
-        payment_data = {
-            "account": username,
-            "amount": amount,
-            "car_code": car_code,
-            "time": now.strftime("%Y-%m-%d %H:%M:%S"),
-            "plate_image_url": plate_image_url
-        }
-        return self.payment_repo.save_payment(payment_data)
+        return self.payment_repo.add_payment(username, amount, car_code, plate_image_url)
 
     def reset_user_status(self, username):
         # Reset trạng thái user sau khi thanh toán thành công

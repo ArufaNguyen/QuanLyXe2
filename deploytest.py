@@ -30,4 +30,4 @@ slot = ParkingRepository().get_slot_available()
 username = AccountRepository().account_has_no_slot()
 now = datetime.now()
 
-print(DashboardDataRepository().load_dashboard_data())
+print(AccountRepository().load_username_data())
