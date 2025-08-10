@@ -53,16 +53,17 @@ def dashboard():
     least_use_slot = dashboard_data.get('least_use_slot')
     admin_online = dashboard_data.get('admin_online')
     # Bạn có thể load các dữ liệu khác phục vụ dashboard tại đây
-    dashboard_data = AccountRepository().load_username_data()[0]
-    ID_xe = dashboard_data.get('ID_xe')
-    qr_code = dashboard_data.get('qr_code')
-    Time_used = dashboard_data.get('Time_used')
-    Time_started = dashboard_data.get('Time_started')
-    Day_started = dashboard_data.get('Day_started')
-    Day_Pass = dashboard_data.get('Day_Pass')
-    hours= to_time(username)["hours"]
-    minutes = to_time(username)["minutes"]
-    seconds = to_time(username)["seconds"]
+    dashboard_data = AccountRepository().load_username_data()
+    for i in dashboard_data:
+        if i.get("username") == username:
+            ID_xe = i.get('ID_xe')
+            qr_code = i.get('qr_code')
+            Time_used = i.get('Time_used')
+            Time_started = i.get('Time_started')
+            Day_started = i.get('Day_started')
+            Day_Pass = i.get('Day_Pass')
+            hours= to_time(username)["hours"]
+            minutes = to_time(username)["minutes"]
     if role == 'admin':
         return render_template(
             'admin_dashboard.html',
@@ -84,8 +85,8 @@ def dashboard():
             Time_started=Time_started,
             ID_xe=ID_xe,
             qr_code=qr_code,
-            hours=hours,
-            minutes=minutes
+            hours=int(hours),
+            minutes=int(minutes)
         )
 
 

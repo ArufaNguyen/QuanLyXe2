@@ -1,40 +1,56 @@
 import datetime
-import json
-def get_day_pass(username1):
-    def load_users():
-        with open('static/users.json') as f:
-            return json.load(f)
-    user = load_users()
-    for user in user:
-        if user.get('username') == username1:
-            day = user.get('Day_started')
-    nam,thang,ngay = map(int, day.split('-'))
+import pyodbc
 
-    def convert_to_day(ngay, thang, nam): 
-        today = str(datetime.date.today())
-        curnam,curthang,curngay = map(int, today.split('-'))
-        day_pass = 0
-        passnam=curnam - nam
-        passthang = curthang - thang
-        passngay = curngay - ngay
-        if passnam > 0:
-            day_pass = day_pass + 365
-        if passthang > 0:
-            day_pass = day_pass + 30
-        if passngay > 0:
-            day_pass = day_pass + passngay
+def get_day_pass(username):
+    conn = pyodbc.connect(
+        'DRIVER={SQL Server};'
+        'SERVER=localhost,1433;'
+        'DATABASE=QuanLyXeDB;'
+        'UID=sa;'
+        'PWD=Aa123456'
+    )
+    cursor = conn.cursor()
+    query = "SELECT Day_started FROM users WHERE username = ?"
+    cursor.execute(query, (username,))
+    row = cursor.fetchone()
+
+    if not row or not row[0]:
+        cursor.close()
+        conn.close()
+        return 0
+
+    day_started = row[0]
+    if day_started !="NULL":
+        if isinstance(day_started, datetime.datetime) or isinstance(day_started, datetime.date):
+            day_date = day_started.date() if isinstance(day_started, datetime.datetime) else day_started
+        else:
+            day_date = datetime.datetime.strptime(day_started, '%Y-%m-%d').date()
+                    
+        today = datetime.date.today()
+        day_pass = (today - day_date).days
+
+        cursor.close()
+        conn.close()
+
         return day_pass
-    return convert_to_day(ngay, thang, nam)
+    else:
+        
+        return 0
+        
 
-def ghi_de(username1):
-    with open('static/users.json', 'r', encoding='utf-8') as f:
-        users = json.load(f)
 
-    for user in users:
-        if user['username'] == 'attendant1':
-            user['Day_Pass'] = get_day_pass(username1) 
-            break
-
-    with open('static/users.json', 'w', encoding='utf-8') as f:
-        json.dump(users, f, indent=4, ensure_ascii=False)
-# ghi_de('attendant1')
+def ghi_de(username):
+    day_pass = get_day_pass(username)
+    conn = pyodbc.connect(
+        'DRIVER={SQL Server};'
+        'SERVER=localhost,1433;'
+        'DATABASE=QuanLyXeDB;'
+        'UID=sa;'
+        'PWD=Aa123456'
+    )
+    cursor = conn.cursor()
+    query = "UPDATE users SET Day_Pass = ? WHERE username = ?"
+    cursor.execute(query, (day_pass, username))
+    conn.commit()
+    cursor.close()
+    conn.close()

@@ -29,5 +29,15 @@ from Repositories.sql_server import AccountRepository, ParkingRepository,Dashboa
 slot = ParkingRepository().get_slot_available()
 username = AccountRepository().account_has_no_slot()
 now = datetime.now()
+dashboard_data = AccountRepository().load_username_data()
+
+for i in dashboard_data:
+    if i.get("username") == "BansiCute":
+        ID_xe = i.get('ID_xe')
+        qr_code = i.get('qr_code')
+        Time_used = i.get('Time_used')
+        Time_started = i.get('Time_started')
+        Day_started = i.get('Day_started')
+        Day_Pass = i.get('Day_Pass')
 
 print(AccountRepository().load_username_data())

@@ -59,7 +59,7 @@ class AccountRepository:
             UPDATE users SET
                 ID_xe = 'NULL',
                 Time_used = 0,
-                Time_started = 'NULL',
+                Time_started = '00:00:00',
                 Day_started = 'NULL',
                 Day_Pass = 0,
                 Slot_used = 0,

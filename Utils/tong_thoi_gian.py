@@ -1,17 +1,28 @@
-import json
 import datetime
 from Utils.day_pass import ghi_de
-def to_time(username1):
-    ghi_de(username1)
-    def load_users():
-        with open('static/users.json') as f:
-            return json.load(f)
-    user = load_users()
-    for user in user:
-        if user.get('username') == username1:
-            time= user.get('Time_started')
-            day_pass = user.get('Day_Pass')
-    hours, minutes, seconds = map(int, time.split(':'))
+def to_time(username):
+    # Cập nhật Day_Pass trong DB trước
+    ghi_de(username)
+    import pyodbc
+    conn = pyodbc.connect(
+        'DRIVER={SQL Server};'
+        'SERVER=localhost,1433;'
+        'DATABASE=QuanLyXeDB;'
+        'UID=sa;'
+        'PWD=Aa123456'
+    )
+    cursor = conn.cursor()
+
+    # Lấy Time_started và Day_Pass từ DB
+    query = "SELECT Time_started, Day_Pass FROM users WHERE username = ?"
+    cursor.execute(query, (username,))
+    row = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+    
+
+    hours, minutes, seconds = map(float, str(row[0]).split(':'))
     def convert_to_hour(hours, minutes, seconds,day_pass):
         if day_pass == 0:
             total_seconds = hours * 3600 + minutes * 60 + seconds
@@ -27,7 +38,7 @@ def to_time(username1):
         'hours': hours,
         'minutes': minutes,
         'seconds': seconds,
-        'Perfect_hour': convert_to_hour(hours, minutes, seconds, day_pass),
+        'Perfect_hour': convert_to_hour(hours, minutes, seconds, row[1]),
     }
     return table
-
+# print(to_time("attendant1"))
