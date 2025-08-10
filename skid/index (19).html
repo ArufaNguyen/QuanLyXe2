@@ -1,0 +1,683 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Quản lý tài khoản</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    /* Custom scrollbar for sidebar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #4b5563;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+  <div class="flex min-h-screen flex-col md:flex-row">
+    <!-- Sidebar -->
+    <aside class="bg-gray-800 text-gray-300 w-full md:w-56 flex flex-col md:h-screen">
+      <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-700 flex-shrink-0">
+        <div
+          class="bg-gray-600 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-lg"
+        >
+          A
+        </div>
+        <span class="font-semibold text-lg select-none">CTV Panel</span>
+      </div>
+      <div class="flex flex-col gap-6 px-5 py-6 overflow-y-auto flex-1">
+        <div class="flex items-center gap-3">
+          <img
+            alt="User avatar showing a person with short hair and a dark shirt"
+            class="rounded-full"
+            height="32"
+            src="https://storage.googleapis.com/a1aa/image/70fec390-1aa0-4a2d-ff3a-b20515a13303.jpg"
+            width="32"
+          />
+          <span class="font-semibold text-white select-none">Admin User</span>
+        </div>
+        <nav class="flex flex-col gap-2" id="nav-links">
+          <a
+            class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer"
+            href="/dashboard"
+            id="dashboard-link"
+          >
+            <i class="fas fa-chart-bar"></i> Dashboard
+          </a>
+          <a
+            class="flex items-center gap-3 bg-blue-600 text-white rounded px-3 py-2 font-semibold select-none cursor-pointer"
+            href="#"
+            id="account-link"
+          >
+            <i class="fas fa-users-cog"></i> Quản lý Account
+          </a>
+          <div
+            class="text-gray-400 uppercase text-xs font-semibold mt-6 mb-2 select-none"
+          >
+            Chức năng
+          </div>
+          <a
+            class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer"
+            href="/dashboard#"
+            id="camera1-link"
+          >
+            <i class="fas fa-video"></i> Camera 1
+          </a>
+          <a
+            class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer"
+            href="/dashboard#"
+            id="camera2-link"
+          >
+            <i class="fas fa-video"></i> Camera 2
+          </a>
+          <a
+            class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer"
+            href="#"
+            id="camera3-link"
+          >
+            <i class="fas fa-video"></i> Camera 3
+          </a>
+          <div
+            class="text-gray-400 uppercase text-xs font-semibold mt-6 mb-2 select-none"
+          >
+            Logs
+          </div>
+          <a
+            class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer"
+            href="#"
+            id="inner-logs-link"
+          >
+            <i class="fas fa-book"></i> Inner logs
+          </a>
+          <a
+            class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer"
+            href="#"
+            id="outer-logs-link"
+          >
+            <i class="fas fa-book"></i> Outer logs
+          </a>
+        </nav>
+      </div>
+    </aside>
+    <!-- Main content -->
+    <main class="flex-1 flex flex-col bg-white min-h-screen">
+      <!-- Top bar -->
+      <header
+        class="flex items-center gap-3 border-b border-gray-300 px-4 py-3 select-none sticky top-0 bg-white z-10"
+      >
+        <button aria-label="Toggle menu" class="text-gray-600 hover:text-gray-900 md:hidden" id="menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <span class="font-semibold text-gray-700" id="page-title">Quản lý Account</span>
+        <button aria-label="Close" class="ml-auto text-gray-600 hover:text-gray-900" id="close-btn">
+          <i class="fas fa-times"></i>
+        </button>
+      </header>
+      <!-- Account Management Content -->
+      <section class="p-4 flex flex-col gap-4 overflow-auto" id="account-content">
+        <h1 class="text-xl font-normal text-gray-900 select-none">Quản lý tài khoản</h1>
+
+        <!-- Add Account Button -->
+        <div class="mb-4">
+          <button id="add-account-btn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition select-none" type="button">
+            <i class="fas fa-user-plus mr-2"></i> Thêm tài khoản
+          </button>
+        </div>
+
+        <!-- Add Account Modal -->
+        <div id="add-account-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+          <div class="bg-white rounded shadow-lg w-full max-w-md p-6 relative">
+            <h2 class="text-lg font-semibold mb-4">Thêm tài khoản mới</h2>
+            <form id="add-account-form" class="flex flex-col gap-4">
+              <label class="flex flex-col text-sm font-semibold text-gray-700">
+                Tài khoản
+                <input type="text" id="new-account" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </label>
+              <label class="flex flex-col text-sm font-semibold text-gray-700">
+                Số tiền nhận được
+                <input type="number" id="new-amount" min="0" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </label>
+              <label class="flex flex-col text-sm font-semibold text-gray-700">
+                Mã số xe
+                <input type="text" id="new-car-code" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </label>
+              <label class="flex flex-col text-sm font-semibold text-gray-700">
+                Thời gian (YYYY-MM-DD HH:mm:ss)
+                <input type="text" id="new-time" pattern="^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$" placeholder="2024-06-01 12:00:00" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </label>
+              <label class="flex flex-col text-sm font-semibold text-gray-700">
+                URL ảnh biển số xe
+                <input type="url" id="new-plate-image-url" placeholder="https://example.com/image.png" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+              </label>
+              <div class="flex justify-end gap-3 mt-4">
+                <button type="button" id="cancel-add-account" class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition">
+                  Hủy
+                </button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                  Thêm
+                </button>
+              </div>
+            </form>
+            <button id="close-modal-btn" aria-label="Close modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" type="button">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Account Table -->
+        <div class="bg-white rounded border border-blue-500 p-3 select-none" id="table-container" style="">
+          <div class="flex justify-between items-center border-b border-gray-300 pb-1 mb-2 text-xs font-semibold text-gray-700 uppercase">
+            <span>DANH SÁCH ACCOUNT</span>
+            <button aria-label="Toggle table" class="text-gray-500 hover:text-gray-900" id="toggle-table-btn" type="button">
+              <i class="fas fa-minus"></i>
+            </button>
+          </div>
+          <div class="flex justify-between items-center mb-2 text-xs text-gray-700 flex-wrap gap-2">
+            <div class="flex items-center gap-1">
+              <span>Show</span>
+              <select class="border border-gray-300 rounded px-1 py-0.5 text-xs" id="entries-select">
+                <option>5</option>
+                <option selected>10</option>
+                <option>25</option>
+                <option>50</option>
+              </select>
+              <span>entries</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <label class="text-sm font-normal" for="search-input">Search:</label>
+              <input class="border border-gray-300 rounded px-1 py-0.5 text-xs" id="search-input" type="text" placeholder="Search..." />
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse text-xs text-gray-900" id="data-table">
+              <thead>
+                <tr class="bg-gray-100 border border-gray-300">
+                  <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none" data-column="id">STT <i class="fas fa-sort"></i></th>
+                  <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none" data-column="account">Tài khoản <i class="fas fa-sort"></i></th>
+                  <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none" data-column="amount">Số tiền nhận được <i class="fas fa-sort"></i></th>
+                  <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none" data-column="car_code">Mã số xe <i class="fas fa-sort"></i></th>
+                  <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none" data-column="time">THỜI GIAN <i class="fas fa-sort"></i></th>
+                  <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">Ảnh biển số xe <i class="fas fa-sort"></i></th>
+                  <th class="border border-gray-300 px-2 py-1 text-center font-semibold select-none">Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+          <div class="flex justify-between items-center mt-2 text-xs font-semibold text-gray-900 flex-wrap gap-2" id="pagination">
+            <div>
+              <strong id="pagination-info"></strong>
+            </div>
+            <nav class="flex gap-1 select-none" id="pagination-buttons"></nav>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    // Sidebar links
+    const dashboardLink = document.getElementById("dashboard-link");
+    const accountLink = document.getElementById("account-link");
+    const camera1Link = document.getElementById("camera1-link");
+    const camera2Link = document.getElementById("camera2-link");
+    const camera3Link = document.getElementById("camera3-link");
+    const innerLogsLink = document.getElementById("inner-logs-link");
+    const outerLogsLink = document.getElementById("outer-logs-link");
+
+    // Content sections (dummy for compatibility)
+    const dashboardContent = document.createElement("div");
+    dashboardContent.classList.add("hidden");
+    const camera1Content = document.createElement("div");
+    camera1Content.classList.add("hidden");
+    const camera2Content = document.createElement("div");
+    camera2Content.classList.add("hidden");
+    const camera3Content = document.createElement("div");
+    camera3Content.classList.add("hidden");
+    const innerLogsContent = document.createElement("div");
+    innerLogsContent.classList.add("hidden");
+    const outerLogsContent = document.createElement("div");
+    outerLogsContent.classList.add("hidden");
+
+    // Sidebar and top bar controls
+    const sidebar = document.querySelector("aside");
+    const menuToggle = document.getElementById("menu-toggle");
+    const closeBtn = document.getElementById("close-btn");
+    const pageTitle = document.getElementById("page-title");
+
+    // Account management elements
+    const addAccountBtn = document.getElementById("add-account-btn");
+    const addAccountModal = document.getElementById("add-account-modal");
+    const addAccountForm = document.getElementById("add-account-form");
+    const cancelAddAccountBtn = document.getElementById("cancel-add-account");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+
+    // Table elements
+    const tableBody = document.getElementById("table-body");
+    const entriesSelect = document.getElementById("entries-select");
+    const searchInput = document.getElementById("search-input");
+    const paginationInfo = document.getElementById("pagination-info");
+    const paginationButtons = document.getElementById("pagination-buttons");
+    const toggleTableBtn = document.getElementById("toggle-table-btn");
+    const tableContainer = document.getElementById("table-container");
+
+    // Data and state
+    let currentPage = 1;
+    let entriesPerPage = parseInt(entriesSelect.value);
+    let originalData = [];
+    let filteredData = [];
+    let tableVisible = true;
+
+    // Sample fallback data if fetch fails
+    const sampleData = [
+      {
+        id: 1,
+        account: "user1",
+        amount: 500000,
+        car_code: "ABC123",
+        time: "2024-06-01 08:30:00",
+        plate_image_url: "https://placehold.co/100x50/png?text=ABC123"
+      },
+      {
+        id: 2,
+        account: "user2",
+        amount: 750000,
+        car_code: "XYZ789",
+        time: "2024-06-01 09:15:00",
+        plate_image_url: "https://placehold.co/100x50/png?text=XYZ789"
+      },
+      {
+        id: 3,
+        account: "user3",
+        amount: 300000,
+        car_code: "LMN456",
+        time: "2024-06-01 10:00:00",
+        plate_image_url: "https://placehold.co/100x50/png?text=LMN456"
+      }
+    ];
+
+    // Fetch data from API and render table
+    async function fetchData() {
+      try {
+        const response = await fetch("/api/users");
+        if (!response.ok) throw new Error("Failed to load data.json");
+        const jsonData = await response.json();
+        originalData = jsonData;
+        filteredData = [...originalData];
+        currentPage = 1;
+        renderTable();
+      } catch (error) {
+        console.error(error);
+        originalData = [...sampleData];
+        filteredData = [...originalData];
+        currentPage = 1;
+        renderTable();
+      }
+    }
+
+    // Render table rows and pagination info
+    function renderTable() {
+      tableBody.innerHTML = "";
+      const start = (currentPage - 1) * entriesPerPage;
+      const end = start + entriesPerPage;
+      const pageData = filteredData.slice(start, end);
+
+      if (pageData.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="7" class="text-center p-4">No data found</td></tr>`;
+      } else {
+        pageData.forEach((item, index) => {
+          const tr = document.createElement("tr");
+          if (index % 2 === 0) tr.classList.add("bg-gray-100");
+
+          tr.innerHTML = `
+            <td class="border border-gray-300 px-2 py-1 font-bold">${item.id}</td>
+            <td class="border border-gray-300 px-2 py-1 font-bold">${item.account}</td>
+            <td class="border border-gray-300 px-2 py-1 font-bold">${item.amount.toLocaleString()}</td>
+            <td class="border border-gray-300 px-2 py-1 font-bold">${item.car_code}</td>
+            <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">${item.time}</td>
+            <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline text-blue-600">
+              <a href="${item.plate_image_url}" target="_blank" rel="noopener noreferrer">
+                <img src="${item.plate_image_url}" alt="License plate image showing the plate number ${item.car_code}" class="inline-block h-6 w-auto" />
+              </a>
+            </td>
+            <td class="border border-gray-300 px-2 py-1 text-center">
+              <button class="text-red-600 hover:underline delete-account-btn" data-id="${item.id}" type="button">Xóa</button>
+            </td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      }
+
+      paginationInfo.textContent = `Showing ${filteredData.length === 0 ? 0 : start + 1} to ${
+        end > filteredData.length ? filteredData.length : end
+      } of ${filteredData.length} entries`;
+
+      renderPagination();
+    }
+
+    // Render pagination buttons
+    function renderPagination() {
+      paginationButtons.innerHTML = "";
+      const totalPages = Math.ceil(filteredData.length / entriesPerPage);
+
+      function createPageButton(page) {
+        const btn = document.createElement("button");
+        btn.textContent = page;
+        btn.className =
+          "border border-gray-300 rounded px-3 py-1 cursor-pointer hover:bg-gray-200 " +
+          (page === currentPage ? "bg-blue-600 text-white" : "text-blue-600");
+        btn.addEventListener("click", () => {
+          currentPage = page;
+          renderTable();
+        });
+        return btn;
+      }
+
+      // Previous button
+      const prevBtn = document.createElement("button");
+      prevBtn.textContent = "Previous";
+      prevBtn.className =
+        "border border-gray-300 rounded px-2 py-1 text-gray-700 hover:bg-gray-200 cursor-pointer";
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      });
+      paginationButtons.appendChild(prevBtn);
+
+      // Page buttons (max 5 pages with ellipsis)
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+
+      if (currentPage <= 3) {
+        endPage = Math.min(5, totalPages);
+      }
+      if (currentPage > totalPages - 3) {
+        startPage = Math.max(1, totalPages - 4);
+      }
+
+      if (startPage > 1) {
+        paginationButtons.appendChild(createPageButton(1));
+        if (startPage > 2) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          dots.className = "px-2 py-1";
+          paginationButtons.appendChild(dots);
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        paginationButtons.appendChild(createPageButton(i));
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          dots.className = "px-2 py-1";
+          paginationButtons.appendChild(dots);
+        }
+        paginationButtons.appendChild(createPageButton(totalPages));
+      }
+
+      // Next button
+      const nextBtn = document.createElement("button");
+      nextBtn.textContent = "Next";
+      nextBtn.className =
+        "border border-gray-300 rounded px-2 py-1 text-blue-600 cursor-pointer hover:bg-gray-200";
+      nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+      nextBtn.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderTable();
+        }
+      });
+      paginationButtons.appendChild(nextBtn);
+    }
+
+    // Filter data by search input
+    function filterData() {
+      const searchTerm = searchInput.value.toLowerCase();
+      filteredData = originalData.filter(
+        (item) =>
+          item.account.toLowerCase().includes(searchTerm) ||
+          item.amount.toString().toLowerCase().includes(searchTerm) ||
+          item.car_code.toLowerCase().includes(searchTerm) ||
+          item.time.toLowerCase().includes(searchTerm) ||
+          item.id.toString().includes(searchTerm)
+      );
+      currentPage = 1;
+      renderTable();
+    }
+
+    // Delete account by id
+    function deleteAccount(id) {
+      if (confirm("Bạn có chắc muốn xóa tài khoản này?")) {
+        originalData = originalData.filter(item => item.id !== id);
+        filterData();
+      }
+    }
+
+    // Sidebar navigation active link and content toggle
+    function setActiveLink(activeLink) {
+      const links = [dashboardLink, accountLink, camera1Link, camera2Link, camera3Link, innerLogsLink, outerLogsLink];
+      links.forEach(link => {
+        link.classList.remove("bg-blue-600", "text-white", "rounded", "font-semibold");
+        link.classList.add("hover:text-white", "transition");
+      });
+      activeLink.classList.add("bg-blue-600", "text-white", "rounded", "font-semibold");
+      activeLink.classList.remove("hover:text-white", "transition");
+    }
+
+    function hideAllContents() {
+      dashboardContent.classList.add("hidden");
+      accountContent.classList.add("hidden");
+      camera1Content.classList.add("hidden");
+      camera2Content.classList.add("hidden");
+      camera3Content.classList.add("hidden");
+      innerLogsContent.classList.add("hidden");
+      outerLogsContent.classList.add("hidden");
+    }
+
+    accountLink.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      accountContent.classList.remove("hidden");
+      pageTitle.textContent = "Quản lý Account";
+      setActiveLink(accountLink);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+      filterData();
+    });
+
+    dashboardLink.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      dashboardContent.classList.remove("hidden");
+      pageTitle.textContent = "Dashboard";
+      setActiveLink(dashboardLink);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    camera1Link.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      camera1Content.classList.remove("hidden");
+      pageTitle.textContent = "Camera 1";
+      setActiveLink(camera1Link);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    camera2Link.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      camera2Content.classList.remove("hidden");
+      pageTitle.textContent = "Camera 2";
+      setActiveLink(camera2Link);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    camera3Link.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      camera3Content.classList.remove("hidden");
+      pageTitle.textContent = "Camera 3";
+      setActiveLink(camera3Link);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    innerLogsLink.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      innerLogsContent.classList.remove("hidden");
+      pageTitle.textContent = "Inner logs";
+      setActiveLink(innerLogsLink);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    outerLogsLink.addEventListener("click", e => {
+      e.preventDefault();
+      hideAllContents();
+      outerLogsContent.classList.remove("hidden");
+      pageTitle.textContent = "Outer logs";
+      setActiveLink(outerLogsLink);
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    // Sidebar toggle for mobile
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("hidden");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      if(window.innerWidth < 768) sidebar.classList.add("hidden");
+    });
+
+    window.addEventListener("resize", () => {
+      if(window.innerWidth >= 768) {
+        sidebar.classList.remove("hidden");
+      } else {
+        sidebar.classList.add("hidden");
+      }
+    });
+
+    // Add Account Modal handlers
+    addAccountBtn.addEventListener("click", () => {
+      addAccountModal.classList.remove("hidden");
+    });
+
+    cancelAddAccountBtn.addEventListener("click", () => {
+      addAccountModal.classList.add("hidden");
+      addAccountForm.reset();
+    });
+
+    closeModalBtn.addEventListener("click", () => {
+      addAccountModal.classList.add("hidden");
+      addAccountForm.reset();
+    });
+
+    addAccountForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const newAccount = document.getElementById("new-account").value.trim();
+      const newAmount = Number(document.getElementById("new-amount").value);
+      const newCarCode = document.getElementById("new-car-code").value.trim();
+      const newTime = document.getElementById("new-time").value.trim();
+      const newPlateImageUrl = document.getElementById("new-plate-image-url").value.trim();
+
+      if (!newAccount || !newAmount || !newCarCode || !newTime || !newPlateImageUrl) {
+        alert("Vui lòng điền đầy đủ thông tin hợp lệ.");
+        return;
+      }
+
+      const timeRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+      if (!timeRegex.test(newTime)) {
+        alert("Thời gian phải có định dạng YYYY-MM-DD HH:mm:ss");
+        return;
+      }
+
+      const newId = originalData.length > 0 ? Math.max(...originalData.map(d => d.id)) + 1 : 1;
+      const newEntry = {
+        id: newId,
+        account: newAccount,
+        amount: newAmount,
+        car_code: newCarCode,
+        time: newTime,
+        plate_image_url: newPlateImageUrl
+      };
+
+      originalData.unshift(newEntry);
+      filterData();
+
+      addAccountModal.classList.add("hidden");
+      addAccountForm.reset();
+    });
+
+    // Search and entries per page for account table
+    entriesSelect.addEventListener("change", () => {
+      entriesPerPage = parseInt(entriesSelect.value);
+      currentPage = 1;
+      renderTable();
+    });
+
+    searchInput.addEventListener("input", () => {
+      filterData();
+    });
+
+    // Delete account event delegation
+    tableBody.addEventListener("click", e => {
+      if (e.target.classList.contains("delete-account-btn")) {
+        const id = parseInt(e.target.getAttribute("data-id"));
+        deleteAccount(id);
+      }
+    });
+
+    // Toggle account table visibility
+    toggleTableBtn.addEventListener("click", () => {
+      tableVisible = !tableVisible;
+      if (tableVisible) {
+        tableContainer.querySelector("table").classList.remove("hidden");
+        paginationInfo.parentElement.classList.remove("hidden");
+        toggleTableBtn.innerHTML = '<i class="fas fa-minus"></i>';
+      } else {
+        tableContainer.querySelector("table").classList.add("hidden");
+        paginationInfo.parentElement.classList.add("hidden");
+        toggleTableBtn.innerHTML = '<i class="fas fa-plus"></i>';
+      }
+    });
+
+    // Auto-refresh data every 10 seconds
+    async function autoRefreshData() {
+      try {
+        const response = await fetch("/api/users");
+        if (!response.ok) throw new Error("Failed to load data.json");
+        const jsonData = await response.json();
+        originalData = jsonData;
+        filterData();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // Initialize
+    function init() {
+      // Show account management by default
+      hideAllContents();
+      document.getElementById("account-content").classList.remove("hidden");
+      setActiveLink(accountLink);
+      pageTitle.textContent = "Quản lý Account";
+      fetchData();
+
+      // Start auto-refresh every 10 seconds
+      setInterval(autoRefreshData, 10000);
+    }
+
+    init();
+  </script>
+</body>
+</html>
