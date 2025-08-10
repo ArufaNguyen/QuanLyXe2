@@ -8,7 +8,7 @@ payment_service = PaymentService()
 @api_bp.route('/payment-success')
 def payment_success():
     if 'username' not in session:
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('login'))
 
     username = session['username']
     money = payment_service.calculate_money(username)

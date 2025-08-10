@@ -511,7 +511,7 @@
 
     async function fetchData() {
       try {
-        const response = await fetch("/static/data.json");
+        const response = await fetch("/api/data");
         if (!response.ok) throw new Error("Failed to load data.json");
         const jsonData = await response.json();
         originalData = jsonData;

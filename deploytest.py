@@ -30,4 +30,4 @@ slot = ParkingRepository().get_slot_available()
 username = AccountRepository().account_has_no_slot()
 now = datetime.now()
 
-print(VehicleRepository().add_vehicle("AVC-123","12312"))
+print(DashboardDataRepository().load_dashboard_data())

@@ -10,7 +10,15 @@ class DashboardDataRepository:
         rows = self.cursor.fetchall()
         slots = [row[0] for row in rows]
         return slots[0]
-
+    def load_dashboard_data(self):
+            query = f"SELECT * FROM dashboard_data" #0 = false car 
+            self.cursor.execute(query)
+            columns = [column[0] for column in self.cursor.description]
+            row = self.cursor.fetchone()
+            if row:
+                return dict(zip(columns, row))
+            else:
+                return {}
     def update(self,element,value):
         values = self.data_pull(element) +value
         query = f"UPDATE dashboard_data SET {element} = {values}"
