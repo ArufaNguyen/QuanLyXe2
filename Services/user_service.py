@@ -10,10 +10,16 @@ class UserService:
 
     def register_account(self, username, password, role, requirement_role):
         # Logic nghiệp vụ có thể kiểm tra role hợp lệ, phân quyền
+        print(f"Checking register_account with username={username}, requirement_role={requirement_role}")
+
         if requirement_role != 'owner':
             # chỉ owner mới được tạo tài khoản
+            print("Permission denied: only owner can create accounts")
+
             return False
         if self.account_repo.is_used(username):
+            print(f"Username {username} already used")
+
             return False
         return self.account_repo.create_account(username, password, role, requirement_role)
 

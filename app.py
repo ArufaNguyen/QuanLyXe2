@@ -17,6 +17,7 @@ from Utils.Capture import CaptureID
 from Utils.image_OCR import OCR_image
 from Services import VehicleService
 from Services import DashboardDataService
+from Services import UserService
 app = Flask(__name__)
 app.secret_key = 'test123'
 payment_service = PaymentService()
@@ -73,7 +74,7 @@ def dashboard():
             Day_Pass = i.get('Day_Pass')
             hours= to_time(username)["hours"]
             minutes = to_time(username)["minutes"]
-    if role == 'admin':
+    if role == 'admin' or role == 'owner':
         return render_template(
             'admin_dashboard.html',
             username=username,
@@ -190,8 +191,28 @@ def checkin():
         "message": f"Xe {ID_xe} đã check-in",
         "plate_image": plate_image_url
     })    
+@app.route('/api/add_account', methods=['POST'])
+def add_account():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    role = data.get('role')
+    current_user_role = session.get('role')  
+    print(f"Current user role: {current_user_role}")
+    # Giả sử role lưu trong session
+    if not current_user_role:
+        return {"error": "Unauthorized"}, 401
+
+    success = UserService().register_account(username, password, role, current_user_role)
+
+    if success:
+        return {"message": "Account created"}, 201
+    else:
+        return {"error": "Permission denied or username taken"}, 403
+
 @app.route('/dashboard/account')
 def data_get():
+    
     if 'username' not in session:
         return redirect(url_for('login'))
     username = session['username']
@@ -218,7 +239,7 @@ def data_get():
             Day_Pass = i.get('Day_Pass')
             hours= to_time(username)["hours"]
             minutes = to_time(username)["minutes"]
-    if role == 'admin':
+    if role == 'admin' or role =='owner':
         return render_template(
             'Account.html',
             username=username,

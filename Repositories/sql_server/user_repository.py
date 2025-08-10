@@ -40,7 +40,7 @@ class AccountRepository:
         return False
     
     def create_account(self,username,password,role,requirement_role):
-        if self.is_owner(username) and self.is_used(username) == False:
+        if requirement_role =="owner"  and self.is_used(username) == False:
             query = f"INSERT INTO users (username, password, role,qr_code) VALUES('{username}','{password}','{role}','{gen(username)}')"
             self.cursor.execute(query)
             self.conn.commit()

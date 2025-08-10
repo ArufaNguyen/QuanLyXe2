@@ -132,45 +132,56 @@
         </div>
 
         <!-- Add Account Modal -->
+        <!-- Add Account Modal -->
         <div id="add-account-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
           <div class="bg-white rounded shadow-lg w-full max-w-md p-6 relative">
             <h2 class="text-lg font-semibold mb-4">Thêm tài khoản mới</h2>
             <form id="add-account-form" class="flex flex-col gap-4">
-              <label class="flex flex-col text-sm font-semibold text-gray-700">
-                Tài khoản
-                <input type="text" id="new-account" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-              </label>
-              <label class="flex flex-col text-sm font-semibold text-gray-700">
-                Password
-                <input type="text" id="new-password" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-              </label>
-              <label class="flex flex-col text-sm font-semibold text-gray-700">
-                Mã số xe
-                <input type="text" id="new-car-code" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-              </label>
-              <label class="flex flex-col text-sm font-semibold text-gray-700">
-                Thời gian (YYYY-MM-DD HH:mm:ss)
-                <input type="text" id="new-time" pattern="^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$" placeholder="2024-06-01 12:00:00" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-              </label>
-              <label class="flex flex-col text-sm font-semibold text-gray-700">
-                URL ảnh biển số xe
-                <input type="url" id="new-plate-image-url" placeholder="https://example.com/image.png" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
-              </label>
-              <div class="flex justify-end gap-3 mt-4">
-                <button type="button" id="cancel-add-account" class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition">
-                  Hủy
-                </button>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                  Thêm
-                </button>
-              </div>
+            <label class="flex flex-col text-sm font-semibold text-gray-700">
+              Tài khoản
+              <input type="text" id="new-account" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </label>
+            <label class="flex flex-col text-sm font-semibold text-gray-700">
+              Password
+              <input type="text" id="new-password" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </label>
+            <label class="flex flex-col text-sm font-semibold text-gray-700">
+              Mã số xe
+              <input type="text" id="new-car-code" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </label>
+            <label class="flex flex-col text-sm font-semibold text-gray-700">
+              Thời gian (YYYY-MM-DD HH:mm:ss)
+              <input type="text" id="new-time" pattern="^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$" placeholder="2024-06-01 12:00:00" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </label>
+            <label class="flex flex-col text-sm font-semibold text-gray-700">
+              URL ảnh biển số xe
+              <input type="url" id="new-plate-image-url" placeholder="https://example.com/image.png" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+            </label>
+            <label class="flex flex-col text-sm font-semibold text-gray-700">
+              Role
+              <select id="new-role" required class="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                <option value="" disabled selected>-- Chọn role --</option>
+                <option value="owner">Owner</option>
+                <option value="admin">Admin</option>
+                <option value="attendant">Attendant</option>
+              </select>
+            </label>
+
+            <div class="flex justify-end gap-3 mt-4">
+              <button type="button" id="cancel-add-account" class="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100 transition">
+                Hủy
+              </button>
+              <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Thêm
+              </button>
+            </div>
             </form>
+
             <button id="close-modal-btn" aria-label="Close modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" type="button">
               <i class="fas fa-times"></i>
             </button>
           </div>
         </div>
-
         <!-- Account Table -->
         <div class="bg-white rounded border border-blue-500 p-3 select-none" id="table-container" style="">
           <div class="flex justify-between items-center border-b border-gray-300 pb-1 mb-2 text-xs font-semibold text-gray-700 uppercase">
@@ -251,8 +262,8 @@
           id: item.STT,
           account: item.username,
           password: item.password,
-          car_code: item.ID_xe === "NULL" ? "" : item.ID_xe,
-          time: item.Day_started === "NULL" ? "" : (item.Day_started + " " + item.Time_started.split('.')[0]),
+          car_code: (item.ID_xe === "NULL" || item.ID_xe === null) ? "" : item.ID_xe,
+          time: (item.Day_started === "NULL" || item.Day_started === null) ? "" : (item.Day_started + " " + item.Time_started.split('.')[0]),
           plate_image_url: (item.plate_image_url && item.plate_image_url.startsWith("http")) ? item.plate_image_url : "https://placehold.co/100x50/png?text=No+Image"
         }));
         filteredData = [...originalData];
@@ -441,37 +452,65 @@
       addAccountModal.classList.add('hidden');
       addAccountForm.reset();
     });
+addAccountForm.addEventListener('submit', function(e) {
+  e.preventDefault();
 
-    // Handle form submit - add new account
-    addAccountForm.addEventListener('submit', function(e) {
-      e.preventDefault();
+  const newAccount = document.getElementById('new-account').value.trim();
+  const newPassword = document.getElementById('new-password').value.trim();
+  const newCarCode = document.getElementById('new-car-code').value.trim();
+  const newTime = document.getElementById('new-time').value.trim();
+  const newPlateImageUrl = document.getElementById('new-plate-image-url').value.trim();
+  const newRole = document.getElementById('new-role').value;
 
-      const newAccount = document.getElementById('new-account').value.trim();
-      const newPassword = document.getElementById('new-password').value.trim();
-      const newCarCode = document.getElementById('new-car-code').value.trim();
-      const newTime = document.getElementById('new-time').value.trim();
-      const newPlateImageUrl = document.getElementById('new-plate-image-url').value.trim();
+  console.log({ newAccount, newPassword, newCarCode, newTime, newPlateImageUrl, newRole });
 
-      const maxId = originalData.length > 0 ? Math.max(...originalData.map(item => item.id)) : 0;
-      const newId = maxId + 1;
+  // 1. Gửi dữ liệu lên API
+  fetch('/api/add_account', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      username: newAccount,
+      password: newPassword,
+      car_code: newCarCode,
+      time: newTime,
+      plate_image_url: newPlateImageUrl,
+      role: newRole
+    })
+  }).then(res => res.json())
+    .then(data => {
+      if(data.message){
+        alert("Thêm tài khoản thành công!");
 
-      const newUser = {
-        id: newId,
-        account: newAccount,
-        password: newPassword,
-        car_code: newCarCode,
-        time: newTime,
-        plate_image_url: newPlateImageUrl
-      };
+        // 2. Cập nhật dữ liệu local nếu cần
+        const maxId = originalData.length > 0 ? Math.max(...originalData.map(item => item.id)) : 0;
+        const newId = maxId + 1;
 
-      originalData.push(newUser);
-      filteredData = [...originalData];
-      currentPage = 1;
-      renderTable();
+        const newUser = {
+          id: newId,
+          account: newAccount,
+          password: newPassword,
+          car_code: newCarCode,
+          time: newTime,
+          plate_image_url: newPlateImageUrl,
+          role: newRole
+        };
 
-      addAccountModal.classList.add('hidden');
-      addAccountForm.reset();
+        originalData.push(newUser);
+        filteredData = [...originalData];
+        currentPage = 1;
+        renderTable();
+
+        // 3. Đóng modal và reset form
+        addAccountModal.classList.add('hidden');
+        addAccountForm.reset();
+      } else {
+        alert("Lỗi: " + (data.error || "Không thể thêm tài khoản"));
+      }
+    }).catch(err => {
+      alert("Lỗi server");
+      console.error(err);
     });
+});
 
     // Auto refresh every 10 seconds
     setInterval(fetchData, 10000);
