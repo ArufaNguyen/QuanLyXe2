@@ -10,7 +10,7 @@ class PaymentService:
     def calculate_money(self, username):
         # Tính tiền dựa trên username, gọi utils hoặc repo tính toán
         # Giả sử bạn có utils To_Money(username)
-        from Utils.money_utils import to_money
+        from Utils.Tong_tien import to_money
         return to_money(username)
 
     def record_payment(self, username, amount, car_code, plate_image_url):

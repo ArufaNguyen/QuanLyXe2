@@ -2,8 +2,8 @@ from flask import Flask, request, render_template, redirect, url_for, session, j
 from datetime import datetime
 from Repositories.sql_server.user_repository import AccountRepository
 from Repositories.sql_server.payment_repository import PaymentRepository
-from Utils.money_utils import to_money
-from Utils.time_utils import to_hours
+from Utils.Tong_tien import to_money
+from Utils.tong_thoi_gian import to_time
 import pyodbc
 from Repositories.sql_server.data_repository import DashboardDataRepository
 from flask import Blueprint, jsonify, session, redirect, url_for,render_template
@@ -43,7 +43,6 @@ def dashboard():
     username = session['username']
     role = session['role']
     money = to_money(username)
-    time_info = to_hours(username)
     # Lấy các biến bạn cần truyền
     dashboard_data = DashboardDataRepository().load_dashboard_data() 
     so_xe_vao = dashboard_data.get('xe_vao')
@@ -54,18 +53,21 @@ def dashboard():
     least_use_slot = dashboard_data.get('least_use_slot')
     admin_online = dashboard_data.get('admin_online')
     # Bạn có thể load các dữ liệu khác phục vụ dashboard tại đây
-    hours = time_info.get('hours')
-    minutes = time_info.get('minutes')
-    seconds = time_info.get('seconds')
-    Time_started = session.get('Time_started')
-    ID_xe = session.get('ID_xe', '')
-    qr_code = session.get('qr_code', '')
+    dashboard_data = AccountRepository().load_username_data()[0]
+    ID_xe = dashboard_data.get('ID_xe')
+    qr_code = dashboard_data.get('qr_code')
+    Time_used = dashboard_data.get('Time_used')
+    Time_started = dashboard_data.get('Time_started')
+    Day_started = dashboard_data.get('Day_started')
+    Day_Pass = dashboard_data.get('Day_Pass')
+    hours= to_time(username)["hours"]
+    minutes = to_time(username)["minutes"]
+    seconds = to_time(username)["seconds"]
     if role == 'admin':
         return render_template(
             'admin_dashboard.html',
             username=username,
             money=money,
-            time_info=time_info,
             so_xe_vao=so_xe_vao,
             so_xe_ra=so_xe_ra,
             slot_trong=slot_trong,
@@ -79,13 +81,11 @@ def dashboard():
             'dashboard.html', 
             username=username, 
             money=money, 
-            time_info=time_info,
             Time_started=Time_started,
             ID_xe=ID_xe,
             qr_code=qr_code,
             hours=hours,
-            minutes=minutes,
-            seconds=seconds,
+            minutes=minutes
         )
 
 

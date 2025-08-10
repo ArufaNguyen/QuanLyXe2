@@ -70,11 +70,19 @@ class AccountRepository:
         self.conn.commit()
         return True
     def load_username_data(self):
-        query = f"SELECT * FROM users" #0 = false car 
+        query = "SELECT * FROM users"
         self.cursor.execute(query)
-        columns = self.cursor.description
-        row = self.cursor.fetchall()
-        return row
+        rows = self.cursor.fetchall()
+        columns = [col[0] for col in self.cursor.description]  # Lấy tên cột từ description
+        results = []
+        for row in rows:
+            # row là tuple giá trị
+            # columns là list tên cột
+            record = {}
+            for col_name, value in zip(columns, row):
+                record[col_name] = value
+            results.append(record)
+        return results
     def close(self):
         self.cursor.close()
         self.conn.close()

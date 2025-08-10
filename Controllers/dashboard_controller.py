@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 from Services.user_service import UserService
-from Utils.money_utils import To_Money
-from Utils.time_utils import To_time
+from Utils.Tong_tien import To_Money
+from Utils.tong_thoi_gian import To_time
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
