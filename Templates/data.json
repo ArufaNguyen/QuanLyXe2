@@ -1,0 +1,114 @@
+[
+  {
+    "id": 0,
+    "account": "attendant1",
+    "amount": 20000,
+    "car_code": "ABC-1234",
+    "time": "2025-03-13 19:54:12",
+    "plate_image_url": "https://example.com/image0.jpg"
+  },
+  {
+    "id": 1,
+    "account": "attendant1",
+    "amount": 30000,
+    "car_code": "ABC-1234",
+    "time": "2025-03-09 12:45:22",
+    "plate_image_url": "https://example.com/image1.jpg"
+  },
+  {
+    "id": 2,
+    "account": "attendant1",
+    "amount": 20000,
+    "car_code": "ABC-1234",
+    "time": "2025-03-09 00:30:51",
+    "plate_image_url": "https://example.com/image2.jpg"
+  },
+  {
+    "id": 3,
+    "account": "attendant1",
+    "amount": 337850,
+    "car_code": "ABC-1234",
+    "time": "2025-03-03 14:09:41",
+    "plate_image_url": "https://example.com/image3.jpg"
+  },
+  {
+    "id": 4,
+    "account": "attendant2",
+    "amount": 15000,
+    "car_code": "XYZ-5678",
+    "time": "2025-04-01 10:23:11",
+    "plate_image_url": "https://example.com/image4.jpg"
+  },
+  {
+    "id": 5,
+    "account": "attendant3",
+    "amount": 45000,
+    "car_code": "JKL-0001",
+    "time": "2025-04-02 11:40:35",
+    "plate_image_url": "https://example.com/image5.jpg"
+  },
+  {
+    "id": 6,
+    "account": "attendant4",
+    "amount": 60000,
+    "car_code": "QWE-2345",
+    "time": "2025-04-03 15:55:28",
+    "plate_image_url": "https://example.com/image6.jpg"
+  },
+  {
+    "id": 7,
+    "account": "attendant1",
+    "amount": 5000,
+    "car_code": "ZXC-1111",
+    "time": "2025-04-04 08:12:47",
+    "plate_image_url": "https://example.com/image7.jpg"
+  },
+  {
+    "id": 8,
+    "account": "attendant1",
+    "amount": 25000,
+    "car_code": "QAZ-9988",
+    "time": "2025-04-05 18:22:51",
+    "plate_image_url": "https://example.com/image8.jpg"
+  },
+  {
+    "id": 9,
+    "account": "attendant2",
+    "amount": 18000,
+    "car_code": "WSX-4567",
+    "time": "2025-04-06 09:00:00",
+    "plate_image_url": "https://example.com/image9.jpg"
+  },
+  {
+    "id": 10,
+    "account": "attendant3",
+    "amount": 30000,
+    "car_code": "EDC-5555",
+    "time": "2025-04-07 16:30:00",
+    "plate_image_url": "https://example.com/image10.jpg"
+  },
+  {
+    "id": 11,
+    "account": "attendant1",
+    "amount": 55000,
+    "car_code": "RFV-8888",
+    "time": "2025-04-08 13:15:00",
+    "plate_image_url": "https://example.com/image11.jpg"
+  },
+  {
+    "id": 12,
+    "account": "attendant4",
+    "amount": 10000,
+    "car_code": "TGB-2222",
+    "time": "2025-04-09 07:45:00",
+    "plate_image_url": "https://example.com/image12.jpg"
+  },
+  {
+    "id": 13,
+    "account": "attendant1",
+    "amount": 75000,
+    "car_code": "YHN-3333",
+    "time": "2025-04-10 22:10:00",
+    "plate_image_url": "https://example.com/image13.jpg"
+  }
+]

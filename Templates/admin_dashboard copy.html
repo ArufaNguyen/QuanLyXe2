@@ -1,0 +1,510 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Dashboard with Camera Toggle
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   /* Custom scrollbar for sidebar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #4b5563;
+      border-radius: 3px;
+    }
+  </style>
+ </head>
+ <body class="bg-gray-100 font-sans text-gray-900">
+  <div class="flex min-h-screen">
+   <!-- Sidebar -->
+   <aside class="bg-gray-800 text-gray-300 w-56 flex flex-col">
+    <div class="flex items-center gap-3 px-5 py-4 border-b border-gray-700">
+     <div class="bg-gray-600 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold text-lg">
+      A
+     </div>
+     <span class="font-semibold text-lg select-none">
+      CTV Panel
+     </span>
+    </div>
+    <div class="flex flex-col gap-6 px-5 py-6 overflow-y-auto flex-1">
+     <div class="flex items-center gap-3">
+      <img alt="User avatar showing a person with short hair and a dark shirt" class="rounded-full" height="32" src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/525483328_719482570918301_3404635945485882208_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFA2DPOjFL2DbkfX12ljCmRUAJ7my39y7NQAnubLf3Ls0_a9vhLhn71bNVL0xaLK93Xku8P8DGuruth5I4uqYuC&_nc_ohc=JUCpE6HCoDQQ7kNvwFIQf9O&_nc_oc=AdlAc4aCYIZxu4btpjyMnPj1PCzgqXT_mkt1glZD5_Apij5EhIH3NNJk7YkHScgSl3S8h3PV2FUtOCCcyXRY_jHI&_nc_zt=23&_nc_ht=scontent.fsgn2-4.fna&_nc_gid=aPUkb9Wa0SqQGyjrIEBr8Q&oh=00_AfWk_egkSUKfC5kQV8sxN5QuE10r8azmI-CRvt9jPxSuuQ&oe=689AA015" width="32"/>
+      <span class="font-semibold text-white select-none">
+       {{username}}
+      </span>
+     </div>
+     <nav class="flex flex-col gap-2" id="nav-links">
+      <a class="flex items-center gap-3 bg-blue-600 text-white rounded px-3 py-2 font-semibold select-none cursor-pointer" href="#" id="dashboard-link">
+       <i class="fas fa-chart-bar">
+       </i>
+       Dashboard
+      </a>
+      <div class="text-gray-400 uppercase text-xs font-semibold mt-6 mb-2 select-none">
+       Chức năng
+      </div>
+      <a class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer" href="#" id="camera1-link">
+       <i class="fas fa-video">
+       </i>
+       Camera 1
+      </a>
+      <a class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer" href="#" id="camera2-link">
+       <i class="fas fa-video">
+       </i>
+       Camera 2
+      </a>
+      <a class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer" href="#" id="camera3-link">
+       <i class="fas fa-video">
+       </i>
+       Camera 3
+      </a>
+      <div class="text-gray-400 uppercase text-xs font-semibold mt-6 mb-2 select-none">
+       Logs
+      </div>
+      <a class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer" href="#">
+       <i class="fas fa-book">
+       </i>
+       Inner logs
+      </a>
+      <a class="flex items-center gap-3 hover:text-white transition select-none cursor-pointer" href="#">
+       <i class="fas fa-book">
+       </i>
+       Oute logs
+      </a>
+     </nav>
+    </div>
+   </aside>
+   <!-- Main content -->
+   <main class="flex-1 flex flex-col bg-white">
+    <!-- Top bar -->
+    <header class="flex items-center gap-3 border-b border-gray-300 px-4 py-3 select-none">
+     <button aria-label="Toggle menu" class="text-gray-600 hover:text-gray-900">
+      <i class="fas fa-bars">
+      </i>
+     </button>
+     <span class="font-semibold text-gray-700" id="page-title">
+      Dashboard
+     </span>
+     <button aria-label="Close" class="ml-auto text-gray-600 hover:text-gray-900">
+      <i class="fas fa-times">
+      </i>
+     </button>
+    </header>
+    <!-- Content -->
+    <section class="p-4 flex flex-col gap-4 overflow-auto" id="dashboard-content">
+     <h1 class="text-xl font-normal text-gray-900 select-none">
+      Dashboard
+     </h1>
+     <!-- Cards grid -->
+     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Card 1 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-yellow-500 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Số xe vào hôm nay
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0
+        </span>
+       </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-green-600 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Số xe ra hôm nay
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0đ
+        </span>
+       </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-green-600 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Số slot trống
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0đ
+        </span>
+       </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-red-600 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Tổng số tiền thu được hôm nay
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0
+        </span>
+       </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-green-600 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Slot được sử dụng nhiều nhất
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0đ
+        </span>
+       </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-yellow-500 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Slot được sử dụng ít nhất
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0
+        </span>
+       </div>
+      </div>
+      <!-- Card 7 -->
+      <div class="flex gap-4 bg-white rounded shadow p-3 items-center">
+       <div class="bg-green-600 w-12 h-12 flex items-center justify-center rounded select-none">
+        <i class="fas fa-credit-card text-white text-lg">
+        </i>
+       </div>
+       <div class="flex flex-col text-xs font-semibold text-gray-900 select-none">
+        <span>
+         Tài khoản ADMIN hiện đang hoạt động
+        </span>
+        <span class="font-bold text-sm mt-1">
+         0đ
+        </span>
+       </div>
+      </div>
+     </div>
+     <!-- Table container -->
+     <div class="bg-white rounded border border-blue-500 p-3 select-none">
+      <div class="flex justify-between items-center border-b border-gray-300 pb-1 mb-2 text-xs font-semibold text-gray-700 uppercase">
+       <span>
+        NHẬT KÝ DÒNG TIỀN GẦN ĐÂY
+       </span>
+       <button aria-label="Toggle table" class="text-gray-500 hover:text-gray-900">
+        <i class="fas fa-minus">
+        </i>
+       </button>
+      </div>
+      <div class="flex justify-between items-center mb-2 text-xs text-gray-700">
+       <div class="flex items-center gap-1">
+        <span>
+         Show
+        </span>
+        <select class="border border-gray-300 rounded px-1 py-0.5 text-xs">
+         <option>
+          10
+         </option>
+        </select>
+        <span>
+         entries
+        </span>
+       </div>
+       <div class="flex items-center gap-1">
+        <label class="text-sm font-normal" for="search">
+         Search:
+        </label>
+        <input class="border border-gray-300 rounded px-1 py-0.5 text-xs" id="search" type="text"/>
+       </div>
+      </div>
+      <div class="overflow-x-auto">
+       <table class="w-full border-collapse text-xs text-gray-900">
+        <thead>
+         <tr class="bg-gray-100 border border-gray-300">
+          <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+           STT
+           <i class="fas fa-sort">
+           </i>
+          </th>
+          <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+           Tài khoản
+           <i class="fas fa-sort">
+           </i>
+          </th>
+          <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+           Số tiền nhận được
+           <i class="fas fa-sort">
+           </i>
+          </th>
+          <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+           Mã số xe
+           <i class="fas fa-sort">
+           </i>
+          </th>
+          <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+           THỜI GIAN
+           <i class="fas fa-sort">
+           </i>
+          </th>
+          <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+           Ảnh biển số xe
+           <i class="fas fa-sort">
+           </i>
+          </th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr class="bg-gray-100">
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           0
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           attendant1
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           20.000
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           ABC-1234
+          </td>
+          <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">
+           2025-03-13 19:54:12
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline">
+           Click me
+          </td>
+         </tr>
+         <tr>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           1
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           attendant1
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           30.000
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           ABC-1234
+          </td>
+          <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">
+           2025-03-09 12:45:22
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline">
+           Click me
+          </td>
+         </tr>
+         <tr class="bg-gray-100">
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           2
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           attendant1
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           20.000
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           ABC-1234
+          </td>
+          <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">
+           2025-03-09 00:30:51
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline">
+           Click me
+          </td>
+         </tr>
+         <tr>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           3
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           attendant1
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           337.850
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">
+           ABC-1234
+          </td>
+          <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">
+           2025-03-03 14:09:41
+          </td>
+          <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline">
+           Click me
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+      <div class="flex justify-between items-center mt-2 text-xs font-semibold text-gray-900">
+       <div>
+        <strong>
+         Showing 1 to 10 of 500 entries
+        </strong>
+       </div>
+       <nav class="flex gap-1 select-none">
+        <button class="border border-gray-300 rounded px-2 py-1 text-gray-700 hover:bg-gray-200 cursor-pointer">
+         Previous
+        </button>
+        <button class="border border-gray-300 rounded px-3 py-1 bg-blue-600 text-white cursor-pointer">
+         1
+        </button>
+        <button class="border border-gray-300 rounded px-3 py-1 text-blue-600 cursor-pointer hover:bg-gray-200">
+         2
+        </button>
+        <button class="border border-gray-300 rounded px-3 py-1 text-blue-600 cursor-pointer hover:bg-gray-200">
+         3
+        </button>
+        <button class="border border-gray-300 rounded px-3 py-1 text-blue-600 cursor-pointer hover:bg-gray-200">
+         4
+        </button>
+        <button class="border border-gray-300 rounded px-3 py-1 text-blue-600 cursor-pointer hover:bg-gray-200">
+         5
+        </button>
+        <span class="px-2 py-1">
+         ...
+        </span>
+        <button class="border border-gray-300 rounded px-3 py-1 text-blue-600 cursor-pointer hover:bg-gray-200">
+         50
+        </button>
+        <button class="border border-gray-300 rounded px-2 py-1 text-blue-600 cursor-pointer hover:bg-gray-200">
+         Next
+        </button>
+       </nav>
+      </div>
+     </div>
+     <!--end-->
+     <div class="flex justify-between text-xs text-gray-600 mt-8 px-1 select-none">
+      <div>
+       Copyright © 2020-2021
+       <a class="text-blue-700 font-bold" href="#">
+        FAST.
+       </a>
+       All rights reserved.
+      </div>
+      <div>
+       Phiên bản
+       <span class="text-red-600 font-bold">
+        1.0.0
+       </span>
+      </div>
+     </div>
+    </section>
+    <section class="p-4 flex flex-col gap-4 overflow-auto hidden" id="camera1-content">
+     <h1 class="text-xl font-normal text-gray-900 select-none">
+      Camera 1
+     </h1>
+     <div class="bg-white rounded shadow p-4">
+      <img alt="Camera 1 live feed showing a parking lot with cars and trees in the background" class="w-full rounded" height="400" src="https://media.discordapp.net/attachments/1345395806319935530/1403015066647003156/tumblr_7c07fb322d99585d401508ae28b549d1_0124ebe6_640.gif?ex=6896031a&is=6894b19a&hm=55f51c7c21e9e82827c9f498917844be0805cd4e4214d1b3f9e30853bbb5af3c&=&width=550&height=310" width="600"/>
+     </div>
+    </section>
+    <section class="p-4 flex flex-col gap-4 overflow-auto hidden" id="camera2-content">
+     <h1 class="text-xl font-normal text-gray-900 select-none">
+      Camera 2
+     </h1>
+     <div class="bg-white rounded shadow p-4">
+      <img alt="Camera 2 live feed showing a street view with cars and buildings" class="w-full rounded" height="400" src="https://media.discordapp.net/attachments/1345395806319935530/1403015066647003156/tumblr_7c07fb322d99585d401508ae28b549d1_0124ebe6_640.gif?ex=6896031a&is=6894b19a&hm=55f51c7c21e9e82827c9f498917844be0805cd4e4214d1b3f9e30853bbb5af3c&=&width=550&height=310" width="600"/>
+     </div>
+    </section>
+    <section class="p-4 flex flex-col gap-4 overflow-auto hidden" id="camera3-content">
+     <h1 class="text-xl font-normal text-gray-900 select-none">
+      Camera 3
+     </h1>
+     <div class="bg-white rounded shadow p-4">
+      <img alt="Camera 3 live feed showing a parking garage interior with cars" class="w-full rounded" height="400" src="https://media.discordapp.net/attachments/1345395806319935530/1403015066647003156/tumblr_7c07fb322d99585d401508ae28b549d1_0124ebe6_640.gif?ex=6896031a&is=6894b19a&hm=55f51c7c21e9e82827c9f498917844be0805cd4e4214d1b3f9e30853bbb5af3c&=&width=550&height=310" width="600"/>
+     </div>
+    </section>
+   </main>
+  </div>
+  <script>
+   const dashboardLink = document.getElementById('dashboard-link');
+   const camera1Link = document.getElementById('camera1-link');
+   const camera2Link = document.getElementById('camera2-link');
+   const camera3Link = document.getElementById('camera3-link');
+   const dashboardContent = document.getElementById('dashboard-content');
+   const camera1Content = document.getElementById('camera1-content');
+   const camera2Content = document.getElementById('camera2-content');
+   const camera3Content = document.getElementById('camera3-content');
+   const pageTitle = document.getElementById('page-title');
+
+   function setActiveLink(activeLink) {
+     // Reset all links
+     dashboardLink.classList.remove('bg-blue-600', 'text-white', 'rounded', 'font-semibold');
+     dashboardLink.classList.add('hover:text-white', 'transition');
+     camera1Link.classList.remove('bg-blue-600', 'text-white', 'rounded', 'font-semibold');
+     camera1Link.classList.add('hover:text-white', 'transition');
+     camera2Link.classList.remove('bg-blue-600', 'text-white', 'rounded', 'font-semibold');
+     camera2Link.classList.add('hover:text-white', 'transition');
+     camera3Link.classList.remove('bg-blue-600', 'text-white', 'rounded', 'font-semibold');
+     camera3Link.classList.add('hover:text-white', 'transition');
+
+     // Set active link styles
+     activeLink.classList.add('bg-blue-600', 'text-white', 'rounded', 'font-semibold');
+     activeLink.classList.remove('hover:text-white', 'transition');
+   }
+
+   dashboardLink.addEventListener('click', (e) => {
+     e.preventDefault();
+     dashboardContent.classList.remove('hidden');
+     camera1Content.classList.add('hidden');
+     camera2Content.classList.add('hidden');
+     camera3Content.classList.add('hidden');
+     pageTitle.textContent = 'Dashboard';
+     setActiveLink(dashboardLink);
+   });
+
+   camera1Link.addEventListener('click', (e) => {
+     e.preventDefault();
+     dashboardContent.classList.add('hidden');
+     camera1Content.classList.remove('hidden');
+     camera2Content.classList.add('hidden');
+     camera3Content.classList.add('hidden');
+     pageTitle.textContent = 'Camera 1';
+     setActiveLink(camera1Link);
+   });
+
+   camera2Link.addEventListener('click', (e) => {
+     e.preventDefault();
+     dashboardContent.classList.add('hidden');
+     camera1Content.classList.add('hidden');
+     camera2Content.classList.remove('hidden');
+     camera3Content.classList.add('hidden');
+     pageTitle.textContent = 'Camera 2';
+     setActiveLink(camera2Link);
+   });
+
+   camera3Link.addEventListener('click', (e) => {
+     e.preventDefault();
+     dashboardContent.classList.add('hidden');
+     camera1Content.classList.add('hidden');
+     camera2Content.classList.add('hidden');
+     camera3Content.classList.remove('hidden');
+     pageTitle.textContent = 'Camera 3';
+     setActiveLink(camera3Link);
+   });
+  </script>
+ </body>
+</html>

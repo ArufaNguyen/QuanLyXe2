@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng nhập vào hệ thống</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-[#121217] flex items-center justify-center min-h-screen p-4">
+  <div class="bg-[#22232B] p-6 rounded-md w-full max-w-xs text-white font-sans">
+    <h1 class="font-extrabold text-lg mb-3">Đăng nhập vào hệ thống</h1>
+    <form id="loginForm" action="/Auth/Login" method="POST" class="space-y-3">
+      <input
+        type="text"
+        name="username"
+        placeholder="Tên người dùng"
+        required
+        class="w-full rounded-md border border-gray-400 bg-[#2E2F38] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-white"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Mật khẩu"
+        required
+        class="w-full rounded-md bg-[#2E2F38] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none"
+      />
+      <button
+        type="submit"
+        class="w-full rounded-md border border-white py-2 text-sm font-semibold hover:bg-white hover:text-[#22232B] transition-colors"
+      >
+        Đăng nhập
+      </button>
+    </form>
+  </div>
+  <!-- Error Modal -->
+  <div
+    id="errorModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-20"
+  >
+    <div
+      class="bg-gray-300 rounded-md w-[400px] max-w-full p-8 flex flex-col items-center space-y-6"
+    >
+      <div
+        class="w-20 h-20 rounded-full border-4 border-red-500 flex items-center justify-center"
+      >
+        <i class="fas fa-times text-red-500 text-4xl"></i>
+      </div>
+      <h2 class="text-2xl font-normal text-gray-800">Lỗi!</h2>
+      <p class="text-gray-700 text-center text-sm max-w-[280px]">
+        Sai thông tin đăng nhập
+      </p>
+      <button
+        id="closeModalBtn"
+        class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+      >
+        Ok
+      </button>
+    </div>
+  </div>
+
+<!-- Success Modal -->
+<div
+  id="successModal"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-20"
+>
+  <div
+    class="bg-gray-300 rounded-md w-[400px] max-w-full p-8 flex flex-col items-center space-y-6"
+  >
+    <div
+      class="w-20 h-20 rounded-full border-4 border-green-600 flex items-center justify-center"
+    >
+      <i class="fas fa-check text-green-600 text-4xl"></i>
+    </div>
+    <h2 class="text-2xl font-normal text-gray-800">Thành công!</h2>
+    <p class="text-gray-700 text-center text-sm max-w-[280px]">
+      Đăng nhập thành công
+    </p>
+    <button
+      id="closeSuccessModalBtn"
+      class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+    >
+      Ok
+    </button>
+  </div>
+</div>
+
+<script>
+  const loginForm = document.getElementById('loginForm');
+  const errorModal = document.getElementById('errorModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const successModal = document.getElementById('successModal');
+  const closeSuccessModalBtn = document.getElementById('closeSuccessModalBtn');
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(loginForm);
+
+    try {
+      const response = await fetch('/Auth/Login', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Hiện modal thành công
+        successModal.classList.remove('hidden');
+        loginForm.reset();
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 1500);
+      } else {
+        // Hiện modal lỗi
+        errorModal.classList.remove('hidden');
+        loginForm.reset();
+
+      }
+    } catch (error) {
+      alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+    }
+  });
+
+  closeModalBtn.addEventListener('click', () => {
+    errorModal.classList.add('hidden');
+  });
+
+  closeSuccessModalBtn.addEventListener('click', () => {
+    successModal.classList.add('hidden');
+    // Bạn có thể thêm chuyển hướng trang ở đây, ví dụ:
+    // window.location.href = '/dashboard';
+  });
+</script>
+
+</body>
+</html>

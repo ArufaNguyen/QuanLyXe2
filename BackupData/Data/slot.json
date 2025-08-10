@@ -1,0 +1,52 @@
+[
+  {
+    "slot": 1,
+    "ID_xe": "ABC-1234",
+    "On_Slot": 1
+  },
+  {
+    "slot": 2,
+    "ID_xe": "XYZ-5678",
+    "On_Slot": 1
+  },
+  {
+    "slot": 3,
+    "ID_xe": "LMN-9101",
+    "On_Slot": 1
+  },
+  {
+    "slot": 4,
+    "ID_xe": "PQR-1122",
+    "On_Slot": 1
+  },
+  {
+    "slot": 5,
+    "ID_xe": "STU-3344",
+    "On_Slot": 1
+  },
+  {
+    "slot": 6,
+    "ID_xe": "VWX-5566",
+    "On_Slot": 1
+  },
+  {
+    "slot": 7,
+    "ID_xe": "YZA-7788",
+    "On_Slot": 1
+  },
+  {
+    "slot": 8,
+    "ID_xe": "BCD-9900",
+    "On_Slot": 1
+  },
+  {
+    "slot": 9,
+    "ID_xe": "EFG-1234",
+    "On_Slot": 1
+  },
+  {
+    "slot": 10,
+    "ID_xe": "HIJ-5678",
+    "On_Slot": 1
+  }
+]

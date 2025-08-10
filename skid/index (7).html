@@ -1,0 +1,122 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Roblox - VNG
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+    body {
+      font-family: "Inter", sans-serif;
+    }
+  </style>
+ </head>
+ <body class="min-h-screen bg-gray-200">
+  <div class="relative w-full min-h-screen overflow-hidden">
+   <div class="relative max-w-7xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-6">
+    <div class="flex flex-col md:flex-row md:items-center md:gap-4 mb-6 md:mb-12">
+    </div>
+    <div class="flex flex-col md:flex-row md:gap-6 w-full">
+     <!-- Left side: Info and Package -->
+     <div class="flex flex-col gap-6 flex-1 max-w-xl">
+      <!-- 1. Thông tin nhân vật -->
+      <section aria-labelledby="info-title" class="bg-white rounded-md p-4 shadow-md max-w-xl w-full">
+       <h2 class="font-semibold text-black text-lg mb-3 select-none" id="info-title">
+        1. Thông tin tài khoản
+       </h2>
+       <div class="text-sm text-gray-900">
+        <p class="font-semibold mb-1 select-none">
+         ID thẻ:
+        </p>
+        <p class="select-text">
+         12345687ABC
+        </p>
+        <p class="font-semibold mb-1 select-none">
+         Biển số xe:
+        </p>
+        <p class="select-text">
+         ABC-1234
+        </p>
+
+       </div>
+      </section>
+      <!-- 2. Chọn gói -->
+      <section aria-labelledby="package-title" class="bg-white rounded-md p-4 shadow-md max-w-xl w-full">
+       <h2 class="font-semibold text-black text-lg mb-3 select-none" id="package-title">
+        2. Thời gian
+       </h2>
+       <p class="text-orange-700 font-semibold cursor-pointer select-none">
+        Thời gian bắt đầu: 8:30:43 AM
+       </p>
+        <p class="text-orange-700 font-semibold cursor-pointer select-none">
+        Tổng thời gian: 2 giờ 30 phút
+       </p>
+        <p class="text-orange-700 font-semibold cursor-pointer select-none">
+        Thành tiền: 28.000 VND
+       </p>
+      </section>
+     </div>
+     <!-- Right side: Order info -->
+     <section aria-labelledby="order-title" class="bg-white rounded-md p-4 shadow-md max-w-md w-full flex flex-col justify-between">
+      <div>
+       <h2 class="font-semibold text-black text-lg mb-3 select-none" id="order-title">
+        3. Thông tin đơn hàng
+       </h2>
+       <form class="space-y-4">
+        <fieldset class="space-y-2">
+         <legend class="text-gray-900 font-semibold select-none">
+          Phương thức thanh toán
+         </legend>
+         <label class="flex items-center border border-orange-500 rounded-md p-2 cursor-pointer" for="vietqr">
+          <input checked="" class="accent-orange-600 mr-3" id="vietqr" name="payment" type="radio" value="vietqr"/>
+          <img alt="VietQR payment method logo in red and blue" class="h-5 w-auto mr-3" height="20" src="https://play-lh.googleusercontent.com/22cJzF0otG-EmmQgILMRTWFPnx0wTCSDY9aFaAmOhHs30oNHxi63KcGwUwmbR76Msko" width="60"/>
+          <span class="select-none">
+           VietQR
+          </span>
+         </label>
+         <label class="flex items-center border border-gray-300 rounded-md p-2 cursor-pointer" for="zalopay">
+          <input class="accent-orange-600 mr-3" id="zalopay" name="payment" type="radio" value="zalopay"/>
+          <img alt="ZaloPay payment method logo in blue and green" class="h-5 w-auto mr-3" height="20" src="https://play-lh.googleusercontent.com/woYAzPCG1I8Z8HXCsdH3diL7oly0N8uth_1g6k7R_9Gu7lbxrsYeriEXLecRG2E9rP0" width="60"/>
+          <span class="select-none">
+           ZaloPay
+          </span>
+         </label>
+        </fieldset>
+        <fieldset>
+         <legend class="text-gray-900 font-semibold mb-2 select-none">
+          Chi tiết thanh toán
+         </legend>
+         <div class="border border-gray-300 rounded-md bg-orange-50 text-gray-500 text-sm px-3 py-2 flex justify-between select-none">
+          <span>
+           Tổng tiền:
+          </span>
+          <span>
+           28.000 VND
+          </span>
+         </div>
+        </fieldset>
+       </form>
+      </div>
+      <div class="mt-6 pt-4 border-t border-gray-200 text-sm text-gray-700 select-none">
+       <p class="font-semibold text-gray-900 mb-2 flex justify-between">
+        <span>
+         Tổng thanh toán
+        </span>
+        <span class="text-orange-600">
+         28.000 VND
+        </span>
+       </p>
+       <button class="w-full bg-gradient-to-b from-orange-600 to-orange-700 text-white font-semibold rounded-md py-2 hover:brightness-110 transition select-none" type="submit">
+        Thanh toán ngay
+       </button>
+      </div>
+     </section>
+    </div>
+   </div>
+  </div>
+ </body>
+</html>

@@ -1,0 +1,109 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Dashboard with Dynamic Table
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <table class="bg-gray-100 font-sans text-gray-900">
+  <div class="p-4 max-w-7xl mx-auto">
+   <table class="w-full border-collapse text-xs text-gray-900 bg-white rounded shadow">
+    <thead>
+     <tr class="bg-gray-100 border border-gray-300">
+      <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+       STT
+       <i class="fas fa-sort">
+       </i>
+      </th>
+      <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+       Tài khoản
+       <i class="fas fa-sort">
+       </i>
+      </th>
+      <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+       Số tiền nhận được
+       <i class="fas fa-sort">
+       </i>
+      </th>
+      <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+       Mã số xe
+       <i class="fas fa-sort">
+       </i>
+      </th>
+      <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+       THỜI GIAN
+       <i class="fas fa-sort">
+       </i>
+      </th>
+      <th class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none">
+       Ảnh biển số xe
+       <i class="fas fa-sort">
+       </i>
+      </th>
+     </tr>
+    </thead>
+    <tbody id="table-body">
+     <!-- Dynamic rows will be inserted here -->
+    </tbody>
+   </table>
+  </div>
+  <script>
+   // Sample data.json content
+   const data = [
+     {
+       "stt": 0,
+       "taikhoan": "attendant1",
+       "sotien": "20.000",
+       "masoxe": "ABC-1234",
+       "thoigian": "2025-03-13 19:54:12"
+     },
+     {
+       "stt": 1,
+       "taikhoan": "attendant1",
+       "sotien": "30.000",
+       "masoxe": "ABC-1234",
+       "thoigian": "2025-03-09 12:45:22"
+     },
+     {
+       "stt": 2,
+       "taikhoan": "attendant1",
+       "sotien": "20.000",
+       "masoxe": "ABC-1234",
+       "thoigian": "2025-03-09 00:30:51"
+     },
+     {
+       "stt": 3,
+       "taikhoan": "attendant1",
+       "sotien": "337.850",
+       "masoxe": "ABC-1234",
+       "thoigian": "2025-03-03 14:09:41"
+     }
+   ];
+
+   const tbody = document.getElementById('table-body');
+
+   data.forEach((item, index) => {
+     const tr = document.createElement('tr');
+     // Alternate row background
+     if(index % 2 === 0) {
+       tr.classList.add('bg-gray-100');
+     }
+
+     tr.innerHTML = `
+       <td class="border border-gray-300 px-2 py-1 font-bold">${item.stt}</td>
+       <td class="border border-gray-300 px-2 py-1 font-bold">${item.taikhoan}</td>
+       <td class="border border-gray-300 px-2 py-1 font-bold">${item.sotien}</td>
+       <td class="border border-gray-300 px-2 py-1 font-bold">${item.masoxe}</td>
+       <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">${item.thoigian}</td>
+       <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline">Click me</td>
+     `;
+     tbody.appendChild(tr);
+   });
+  </script>
+ </table>
+ <!--end-->
+</html>

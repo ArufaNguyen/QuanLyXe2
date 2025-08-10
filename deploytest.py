@@ -1,0 +1,33 @@
+# import pyodbc
+
+# # Kết nối tới database
+# conn = pyodbc.connect(
+#     'DRIVER={SQL Server};'
+#     'SERVER=localhost,1433;'
+#     'DATABASE=QuanLyXeDB;'
+#     'UID=sa;'
+#     'PWD=Aa123456'
+# )
+# cursor = conn.cursor()
+
+# # Lấy dữ liệu
+# cursor.execute("UPDATE slot SET On_Slot = ?, ID_xe = ? WHERE slot = ?", (1, 'doogshit', 5))
+
+# # Cách 1: Duyệt từng dòng
+# # for row in cursor.fetchall():
+# #     print(row)
+
+# # Cách 2: In tất cả một lúc
+# # rows = cursor.fetchall()
+# # print(rows)
+# conn.commit()
+
+# cursor.close()
+# conn.close()
+from datetime import datetime
+from Repositories.sql_server import AccountRepository, ParkingRepository,DashboardDataRepository,VehicleRepository
+slot = ParkingRepository().get_slot_available()
+username = AccountRepository().account_has_no_slot()
+now = datetime.now()
+
+print(VehicleRepository().add_vehicle("AVC-123","12312"))

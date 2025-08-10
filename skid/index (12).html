@@ -1,0 +1,375 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Dashboard with Dynamic Table</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+  <div class="flex min-h-screen">
+    <!-- Sidebar omitted for brevity -->
+
+    <main class="flex-1 flex flex-col bg-white p-4">
+      <h1 class="text-xl font-normal text-gray-900 select-none mb-4">
+        NHẬT KÝ DÒNG TIỀN GẦN ĐÂY
+      </h1>
+      <div
+        class="bg-white rounded border border-blue-500 p-3 select-none"
+        id="table-container"
+      >
+        <div
+          class="flex justify-between items-center border-b border-gray-300 pb-1 mb-2 text-xs font-semibold text-gray-700 uppercase"
+        >
+          <span>NHẬT KÝ DÒNG TIỀN GẦN ĐÂY</span>
+          <button aria-label="Toggle table" class="text-gray-500 hover:text-gray-900" id="toggle-table-btn">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+        <div
+          class="flex justify-between items-center mb-2 text-xs text-gray-700"
+        >
+          <div class="flex items-center gap-1">
+            <span>Show</span>
+            <select
+              class="border border-gray-300 rounded px-1 py-0.5 text-xs"
+              id="entries-select"
+            >
+              <option>5</option>
+              <option selected>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
+            <span>entries</span>
+          </div>
+          <div class="flex items-center gap-1">
+            <label class="text-sm font-normal" for="search">Search:</label>
+            <input
+              class="border border-gray-300 rounded px-1 py-0.5 text-xs"
+              id="search"
+              type="text"
+              placeholder="Search..."
+            />
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table
+            class="w-full border-collapse text-xs text-gray-900"
+            id="data-table"
+          >
+            <thead>
+              <tr class="bg-gray-100 border border-gray-300">
+                <th
+                  class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none"
+                  data-column="stt"
+                >
+                  STT <i class="fas fa-sort"></i>
+                </th>
+                <th
+                  class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none"
+                  data-column="account"
+                >
+                  Tài khoản <i class="fas fa-sort"></i>
+                </th>
+                <th
+                  class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none"
+                  data-column="amount"
+                >
+                  Số tiền nhận được <i class="fas fa-sort"></i>
+                </th>
+                <th
+                  class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none"
+                  data-column="carId"
+                >
+                  Mã số xe <i class="fas fa-sort"></i>
+                </th>
+                <th
+                  class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none"
+                  data-column="time"
+                >
+                  THỜI GIAN <i class="fas fa-sort"></i>
+                </th>
+                <th
+                  class="border border-gray-300 px-2 py-1 text-left font-semibold cursor-pointer select-none"
+                >
+                  Ảnh biển số xe <i class="fas fa-sort"></i>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+        <div
+          class="flex justify-between items-center mt-2 text-xs font-semibold text-gray-900"
+          id="pagination"
+        >
+          <div>
+            <strong id="pagination-info"></strong>
+          </div>
+          <nav class="flex gap-1 select-none" id="pagination-buttons"></nav>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Sample data.json content simulation
+    const data = [
+      {
+        stt: 0,
+        account: "attendant1",
+        amount: "20.000",
+        carId: "ABC-1234",
+        time: "2025-03-13 19:54:12",
+        imgText: "Click me",
+      },
+      {
+        stt: 1,
+        account: "attendant1",
+        amount: "30.000",
+        carId: "ABC-1234",
+        time: "2025-03-09 12:45:22",
+        imgText: "Click me",
+      },
+      {
+        stt: 2,
+        account: "attendant1",
+        amount: "20.000",
+        carId: "ABC-1234",
+        time: "2025-03-09 00:30:51",
+        imgText: "Click me",
+      },
+      {
+        stt: 3,
+        account: "attendant1",
+        amount: "337.850",
+        carId: "ABC-1234",
+        time: "2025-03-03 14:09:41",
+        imgText: "Click me",
+      },
+      {
+        stt: 4,
+        account: "attendant2",
+        amount: "50.000",
+        carId: "XYZ-5678",
+        time: "2025-03-10 10:00:00",
+        imgText: "Click me",
+      },
+      {
+        stt: 5,
+        account: "attendant3",
+        amount: "15.000",
+        carId: "LMN-9012",
+        time: "2025-03-11 11:30:00",
+        imgText: "Click me",
+      },
+      {
+        stt: 6,
+        account: "attendant4",
+        amount: "100.000",
+        carId: "QRS-3456",
+        time: "2025-03-12 09:15:00",
+        imgText: "Click me",
+      },
+      {
+        stt: 7,
+        account: "attendant5",
+        amount: "75.000",
+        carId: "TUV-7890",
+        time: "2025-03-13 08:45:00",
+        imgText: "Click me",
+      },
+      {
+        stt: 8,
+        account: "attendant6",
+        amount: "60.000",
+        carId: "WXY-2345",
+        time: "2025-03-14 07:30:00",
+        imgText: "Click me",
+      },
+      {
+        stt: 9,
+        account: "attendant7",
+        amount: "45.000",
+        carId: "ZAB-6789",
+        time: "2025-03-15 06:00:00",
+        imgText: "Click me",
+      },
+      {
+        stt: 10,
+        account: "attendant8",
+        amount: "25.000",
+        carId: "CDE-1234",
+        time: "2025-03-16 05:00:00",
+        imgText: "Click me",
+      },
+    ];
+
+    const tableBody = document.getElementById("table-body");
+    const entriesSelect = document.getElementById("entries-select");
+    const searchInput = document.getElementById("search");
+    const paginationInfo = document.getElementById("pagination-info");
+    const paginationButtons = document.getElementById("pagination-buttons");
+    const toggleTableBtn = document.getElementById("toggle-table-btn");
+    const tableContainer = document.getElementById("table-container");
+
+    let currentPage = 1;
+    let entriesPerPage = parseInt(entriesSelect.value);
+    let filteredData = [...data];
+    let tableVisible = true;
+
+    function renderTable() {
+      tableBody.innerHTML = "";
+      const start = (currentPage - 1) * entriesPerPage;
+      const end = start + entriesPerPage;
+      const pageData = filteredData.slice(start, end);
+
+      pageData.forEach((item, index) => {
+        const tr = document.createElement("tr");
+        if (index % 2 === 0) tr.classList.add("bg-gray-100");
+
+        tr.innerHTML = `
+          <td class="border border-gray-300 px-2 py-1 font-bold">${item.stt}</td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">${item.account}</td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">${item.amount}</td>
+          <td class="border border-gray-300 px-2 py-1 font-bold">${item.carId}</td>
+          <td class="border border-gray-300 px-2 py-1 bg-gray-800 text-white font-mono text-xs font-normal">${item.time}</td>
+          <td class="border border-gray-300 px-2 py-1 font-bold cursor-pointer hover:underline">${item.imgText}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      paginationInfo.textContent = `Showing ${start + 1} to ${
+        end > filteredData.length ? filteredData.length : end
+      } of ${filteredData.length} entries`;
+
+      renderPagination();
+    }
+
+    function renderPagination() {
+      paginationButtons.innerHTML = "";
+      const totalPages = Math.ceil(filteredData.length / entriesPerPage);
+
+      function createPageButton(page) {
+        const btn = document.createElement("button");
+        btn.textContent = page;
+        btn.className =
+          "border border-gray-300 rounded px-3 py-1 cursor-pointer hover:bg-gray-200 " +
+          (page === currentPage ? "bg-blue-600 text-white" : "text-blue-600");
+        btn.addEventListener("click", () => {
+          currentPage = page;
+          renderTable();
+        });
+        return btn;
+      }
+
+      // Previous button
+      const prevBtn = document.createElement("button");
+      prevBtn.textContent = "Previous";
+      prevBtn.className =
+        "border border-gray-300 rounded px-2 py-1 text-gray-700 hover:bg-gray-200 cursor-pointer";
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderTable();
+        }
+      });
+      paginationButtons.appendChild(prevBtn);
+
+      // Page buttons (show max 5 pages with ellipsis)
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = Math.min(totalPages, currentPage + 2);
+
+      if (currentPage <= 3) {
+        endPage = Math.min(5, totalPages);
+      }
+      if (currentPage > totalPages - 3) {
+        startPage = Math.max(1, totalPages - 4);
+      }
+
+      if (startPage > 1) {
+        paginationButtons.appendChild(createPageButton(1));
+        if (startPage > 2) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          dots.className = "px-2 py-1";
+          paginationButtons.appendChild(dots);
+        }
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        paginationButtons.appendChild(createPageButton(i));
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          const dots = document.createElement("span");
+          dots.textContent = "...";
+          dots.className = "px-2 py-1";
+          paginationButtons.appendChild(dots);
+        }
+        paginationButtons.appendChild(createPageButton(totalPages));
+      }
+
+      // Next button
+      const nextBtn = document.createElement("button");
+      nextBtn.textContent = "Next";
+      nextBtn.className =
+        "border border-gray-300 rounded px-2 py-1 text-blue-600 cursor-pointer hover:bg-gray-200";
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderTable();
+        }
+      });
+      paginationButtons.appendChild(nextBtn);
+    }
+
+    function filterData() {
+      const searchTerm = searchInput.value.toLowerCase();
+      filteredData = data.filter(
+        (item) =>
+          item.account.toLowerCase().includes(searchTerm) ||
+          item.amount.toLowerCase().includes(searchTerm) ||
+          item.carId.toLowerCase().includes(searchTerm) ||
+          item.time.toLowerCase().includes(searchTerm) ||
+          item.imgText.toLowerCase().includes(searchTerm) ||
+          item.stt.toString().includes(searchTerm)
+      );
+      currentPage = 1;
+      renderTable();
+    }
+
+    entriesSelect.addEventListener("change", () => {
+      entriesPerPage = parseInt(entriesSelect.value);
+      currentPage = 1;
+      renderTable();
+    });
+
+    searchInput.addEventListener("input", () => {
+      filterData();
+    });
+
+    toggleTableBtn.addEventListener("click", () => {
+      tableVisible = !tableVisible;
+      if (tableVisible) {
+        tableContainer.querySelector("table").classList.remove("hidden");
+        paginationInfo.parentElement.classList.remove("hidden");
+        toggleTableBtn.innerHTML = '<i class="fas fa-minus"></i>';
+      } else {
+        tableContainer.querySelector("table").classList.add("hidden");
+        paginationInfo.parentElement.classList.add("hidden");
+        toggleTableBtn.innerHTML = '<i class="fas fa-plus"></i>';
+      }
+    });
+
+    // Initial render
+    renderTable();
+  </script>
+</body>
+</html>

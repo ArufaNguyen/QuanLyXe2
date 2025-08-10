@@ -1,0 +1,98 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login with Error Modal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+  />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-sm bg-white rounded-md shadow-md p-6 relative z-10">
+    <h1 class="text-center text-2xl font-extrabold text-pink-700 mb-6">ĐĂNG NHẬP</h1>
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label for="username" class="block font-semibold text-gray-800 mb-1">Tên đăng nhập <span class="text-red-600">*</span></label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Tên đăng nhập"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-600"
+          required
+        />
+      </div>
+      <div>
+        <label for="password" class="block font-semibold text-gray-800 mb-1">Mật khẩu <span class="text-red-600">*</span></label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Mật khẩu"
+          class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-600"
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-pink-700 text-white font-semibold py-2 rounded hover:bg-pink-800 transition"
+      >
+        Đăng nhập
+      </button>
+    </form>
+  </div>
+
+  <!-- Error Modal -->
+  <div
+    id="errorModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-20"
+  >
+    <div
+      class="bg-gray-300 rounded-md w-[400px] max-w-full p-8 flex flex-col items-center space-y-6"
+    >
+      <div
+        class="w-20 h-20 rounded-full border-4 border-red-500 flex items-center justify-center"
+      >
+        <i class="fas fa-times text-red-500 text-4xl"></i>
+      </div>
+      <h2 class="text-2xl font-normal text-gray-800">Lỗi!</h2>
+      <p class="text-gray-700 text-center text-sm max-w-[280px]">
+        Sai thông tin đăng nhập
+      </p>
+      <button
+        id="closeModalBtn"
+        class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+      >
+        Ok
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const errorModal = document.getElementById('errorModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Dummy validation: username must be "user" and password "1234"
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value.trim();
+
+      if (username !== 'user' || password !== '1234') {
+        errorModal.classList.remove('hidden');
+      } else {
+        alert('Đăng nhập thành công!');
+        loginForm.reset();
+      }
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      errorModal.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+
+{
+
+    "DRIVER": "{SQL Server}",
+    "SERVER": "localhost,1433",           
+    "DATABASE": "QuanLyXeDB",          
+    "USERNAME": "sa",                
+    "PASSWORD": "Aa123456"     
+
+}
