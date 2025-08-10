@@ -27,7 +27,7 @@ class VehicleRepository:
                 SET ID_xe ='{ID_xe}', Time_started = '{str(now.time())}', Day_started = '{str(now.date())}',plate_image_url = '{plate_image_url}',On_slot = 1,Slot_used = {slot[0]}
                 WHERE username = '{username[0]}'
             """
-
+            
             self.cursor.execute(query)
             self.conn.commit()
             ParkingRepository().update_slot(slot[0],ID_xe)

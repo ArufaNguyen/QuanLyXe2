@@ -9,9 +9,18 @@ from Repositories.sql_server.data_repository import DashboardDataRepository
 from flask import Blueprint, jsonify, session, redirect, url_for,render_template
 from Services.payment_service import PaymentService
 from flask import Flask, request, render_template, redirect, url_for,session
+from Controllers.api_controller import api_bp
+from flask import Blueprint, jsonify, session, redirect, url_for,render_template
+from Services.payment_service import PaymentService
+from flask import Flask, request, render_template, redirect, url_for,session
+from Utils.Capture import CaptureID
+from Utils.image_OCR import OCR_image
+from Services import VehicleService
+from Services import DashboardDataService
 app = Flask(__name__)
 app.secret_key = 'test123'
 payment_service = PaymentService()
+app.register_blueprint(api_bp, url_prefix="/api")
 
 @app.route('/')
 def home():
@@ -150,6 +159,19 @@ def payment_success():
     payment_service.reset_user_status(username)
 
     return render_template('success.html')
+
+@app.route('/api/checkin', methods=['GET'])
+def checkin():
+    ID_xe = OCR_image()
+    plate_image_url = CaptureID()
+    VehicleService().register_vehicle(ID_xe, plate_image_url)
+    DashboardDataService().increment_element("xe_vao",1)
+    DashboardDataService().close()
+    return jsonify({
+        "status": "success",
+        "message": f"Xe {ID_xe} đã check-in",
+        "plate_image": plate_image_url
+    })    
 
 if __name__ == '__main__':
     app.run(debug=True)

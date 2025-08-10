@@ -20,7 +20,8 @@ def to_time(username):
 
     cursor.close()
     conn.close()
-    
+    now = datetime.datetime.now().time()
+    nhours, nminutes, nseconds = map(float, str(now).split(':'))
 
     hours, minutes, seconds = map(float, str(row[0]).split(':'))
     def convert_to_hour(hours, minutes, seconds,day_pass):
@@ -34,11 +35,12 @@ def to_time(username):
             total_hours = total_seconds / 3600
 
             return round(total_hours,2)
+    
     table = {
-        'hours': hours,
-        'minutes': minutes,
-        'seconds': seconds,
-        'Perfect_hour': convert_to_hour(hours, minutes, seconds, row[1]),
+        'hours': nhours-hours,
+        'minutes': nminutes-minutes,
+        'seconds': nseconds-seconds,
+        'Perfect_hour': convert_to_hour(nhours-hours, nminutes-minutes, nseconds-seconds, row[1]),
     }
     return table
 # print(to_time("attendant1"))
