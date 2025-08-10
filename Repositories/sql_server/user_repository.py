@@ -83,6 +83,14 @@ class AccountRepository:
                 record[col_name] = value
             results.append(record)
         return results
+    def get_role(self, username):
+        query = "SELECT role FROM users WHERE username = ?"
+        cursor = self.conn.cursor()
+        cursor.execute(query, (username,))
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+        return None
     def close(self):
         self.cursor.close()
         self.conn.close()

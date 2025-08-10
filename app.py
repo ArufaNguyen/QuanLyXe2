@@ -40,8 +40,8 @@ def login():
     account_repo = AccountRepository()
     if account_repo.authenticate(username, password):
         session['username'] = username
-        session['role'] = 'admin' if account_repo.is_admin(username) else 'owner'
-        # Bạn có thể load thêm session info tại đây nếu cần
+        role = account_repo.get_role(username)  # trả về 'admin', 'owner', 'attendant', ...
+        session['role'] = role        # Bạn có thể load thêm session info tại đây nếu cần
         return redirect(url_for('dashboard'))
     else:
         return render_template('logintest.html', error="Sai tên đăng nhập hoặc mật khẩu"), 401
