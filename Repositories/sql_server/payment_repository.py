@@ -9,7 +9,7 @@ class PaymentRepository:
     
     def add_payment(self, username: str, amount: float, car_code: str, plate_image_url: str) -> bool:
         try:
-            now = datetime.now()
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             query = """
                 INSERT INTO data (account, amount, car_code, time, plate_image_url)
                 VALUES (?, ?, ?, ?, ?)
