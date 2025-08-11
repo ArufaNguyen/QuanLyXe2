@@ -54,9 +54,9 @@ Assignment này phát triển hệ thống **Python-based Smart Parking Managem
 
 ## Flowchart 
 
-![Progress 1](image\1.jpg)
-![Progress 2](image\2.jpg)
-![Progress 3](image\3.jpg)
+![Progress 1](image/1.jpg)
+![Progress 2](image/2.jpg)
+![Progress 3](image/3.jpg)
 
 
 ## Setup
@@ -96,9 +96,9 @@ http://localhost:5000/api/users
 http://localhost:5000/api/checkin
 ```
 ## Demo
-![1](image\admin_image.png)
-![1](image\attendant_image.png)
-![1](image\owner_image.png)
+![1](image/admin_image.png)
+![1](image/attendant_image.png)
+![1](image/owner_image.png)
 
 # https://github.com/ArufaNguyen/QuanLyXe2
 ### Assigment E-learning 2 Design and Implement a Smart Parking Management System (SPMS)
